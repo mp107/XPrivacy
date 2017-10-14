@@ -131,8 +131,6 @@ public class Util {
 			priority = Log.WARN;
 		else if (ex instanceof RuntimeException)
 			priority = Log.WARN;
-		else if (ex instanceof SecurityException)
-			priority = Log.WARN;
 		else if (ex instanceof SocketTimeoutException)
 			priority = Log.WARN;
 		else if (ex instanceof SSLPeerUnverifiedException)
