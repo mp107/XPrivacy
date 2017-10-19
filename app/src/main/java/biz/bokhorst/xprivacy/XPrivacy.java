@@ -25,6 +25,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
 public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+	public static final String TAG = XPrivacy.class.getSimpleName();
+
 	private static String mSecret = null;
 	private static List<String> mListHookError = new ArrayList<>();
 	private static List<CRestriction> mListDisabled = new ArrayList<>();
@@ -45,7 +47,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 		boolean selinux = Util.isSELinuxEnforced();
 		if ("true".equals(Util.getXOption("ignoreselinux"))) {
 			selinux = false;
-			Log.w("Xprivacy", "Ignoring SELinux");
+			Log.w(TAG, "Ignoring SELinux");
 		}
 
 		// Read list of disabled hooks
@@ -53,7 +55,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 			File disabled = new File("/data/system/xprivacy/disabled");
 			if (disabled.exists() && disabled.canRead())
 				try {
-					Log.w("XPrivacy", "Reading " + disabled.getAbsolutePath());
+					Log.w(TAG, "Reading " + disabled.getAbsolutePath());
 					FileInputStream fis = new FileInputStream(disabled);
 					InputStreamReader ir = new InputStreamReader(fis);
 					BufferedReader br = new BufferedReader(ir);
@@ -64,7 +66,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 							if (name.length > 0) {
 								String methodName = (name.length > 1 ? name[1] : null);
 								CRestriction restriction = new CRestriction(0, name[0], methodName, null);
-								Log.w("XPrivacy", "Disabling " + restriction);
+								Log.w(TAG, "Disabling " + restriction);
 								mListDisabled.add(restriction);
 							}
 						}
@@ -72,7 +74,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 					ir.close();
 					fis.close();
 				} catch (Throwable ex) {
-					Log.w("XPrivacy", ex.toString());
+					Log.w(TAG, ex.toString());
 				}
 		}
 
@@ -167,7 +169,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	}
 
 	private void hookZygote() throws Throwable {
-		Log.w("XPrivacy", "Hooking Zygote");
+		Log.w(TAG, "Hooking Zygote");
 
 		/*
 		 * Add nixed User Space / System Server hooks
@@ -308,7 +310,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	}
 
 	private void hookSystem(ClassLoader classLoader) throws Throwable {
-		Log.w("XPrivacy", "Hooking system");
+		Log.w(TAG, "Hooking system");
 
 		/*
 		 * Add nixed User Space / System Server hooks
@@ -364,7 +366,7 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	}
 
 	private void hookPackage(String packageName, ClassLoader classLoader) {
-		Log.w("XPrivacy", "Hooking package=" + packageName);
+		Log.w(TAG, "Hooking package=" + packageName);
 
 		// Skip hooking self
 		String self = XPrivacy.class.getPackage().getName();

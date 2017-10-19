@@ -68,6 +68,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static biz.bokhorst.xprivacy.XPrivacy.TAG;
+
 public class PrivacyService extends IPrivacyService.Stub {
 	private static int mXUid = -1;
 	private static Object mAm;
@@ -250,7 +252,7 @@ public class PrivacyService extends IPrivacyService.Stub {
 		else {
 			IPrivacyService client = getClient();
 			if (client == null) {
-				Log.w("XPrivacy", "No client for " + restriction);
+				Log.w(TAG, "No client for " + restriction);
 				PRestriction result = new PRestriction(restriction);
 				result.restricted = false;
 				return result;
@@ -265,8 +267,8 @@ public class PrivacyService extends IPrivacyService.Stub {
 		else {
 			IPrivacyService client = getClient();
 			if (client == null) {
-				Log.w("XPrivacy", "No client for " + setting + " uid=" + Process.myUid() + " pid=" + Process.myPid());
-				Log.w("XPrivacy", Log.getStackTraceString(new Exception("StackTrace")));
+				Log.w(TAG, "No client for " + setting + " uid=" + Process.myUid() + " pid=" + Process.myPid());
+				Log.w(TAG, Log.getStackTraceString(new Exception("StackTrace")));
 				return setting;
 			} else
 				return client.getSetting(setting);
