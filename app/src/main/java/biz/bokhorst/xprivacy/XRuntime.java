@@ -11,6 +11,11 @@ import android.text.TextUtils;
 public class XRuntime extends XHook {
 	private Methods mMethod;
 	private String mCommand;
+	private static int NAME_INDEX = 0;
+
+	static {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) NAME_INDEX = 1;
+	}
 
 	private XRuntime(Methods method, String restrictionName, String command) {
 		super(restrictionName, method.name(), command);
@@ -27,6 +32,19 @@ public class XRuntime extends XHook {
 		return !(mMethod == Methods.load || mMethod == Methods.loadLibrary);
 	}
 
+	@Override
+	public String getHookMethodName() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			switch (mMethod) {
+			case load:
+				return "load0";
+			case loadLibrary:
+				return "loadLibrary0";
+			}
+		}
+		return super.getHookMethodName();
+	}
+
 	// public Process exec(String[] progArray)
 	// public Process exec(String[] progArray, String[] envp)
 	// public Process exec(String[] progArray, String[] envp, File directory)
@@ -36,6 +54,10 @@ public class XRuntime extends XHook {
 	// public void load(String pathName)
 	// public void loadLibrary(String libName)
 	// libcore/luni/src/main/java/java/lang/Runtime.java
+	// N+
+	// void load0(Class fromClass, String filename)
+	// void loadLibrary0(ClassLoader loader, String libname)
+	// libcore/ojluni/src/main/java/java/lang/Runtime.java
 	// http://developer.android.com/reference/java/lang/Runtime.html
 
 	private enum Methods {
@@ -74,12 +96,14 @@ public class XRuntime extends XHook {
 
 		case load:
 		case loadLibrary:
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || Process.myUid() != Process.SYSTEM_UID)
-				if (param.args.length > 0) {
-					String libName = (String) param.args[0];
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || Process.myUid() !=
+					Process.SYSTEM_UID) {
+				if (param.args.length > NAME_INDEX) {
+					String libName = (String) param.args[NAME_INDEX];
 					if (isRestrictedExtra(param, libName))
 						param.setThrowable(new UnsatisfiedLinkError("XPrivacy"));
 				}
+			}
 
 			break;
 		}

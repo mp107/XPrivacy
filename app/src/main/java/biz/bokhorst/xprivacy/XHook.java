@@ -29,6 +29,10 @@ public abstract class XHook {
 		return mMethodName;
 	}
 
+	public String getHookMethodName() {
+		return getMethodName();
+	}
+
 	public String getSpecifier() {
 		return (mSpecifier == null ? mMethodName : mSpecifier);
 	}
