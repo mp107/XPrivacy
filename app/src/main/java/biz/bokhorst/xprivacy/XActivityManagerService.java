@@ -30,10 +30,14 @@ public class XActivityManagerService extends XHook {
 			if (mMethod == Methods.goingToSleep || mMethod == Methods.wakingUp)
 				return false;
 
-		return (mMethod != Methods.appNotResponding && mMethod != Methods.finishBooting && mMethod != Methods.updateSleepIfNeededLocked);
+		return (mMethod != Methods.appNotResponding && mMethod != Methods.finishBooting &&
+				mMethod != Methods.updateSleepIfNeededLocked);
 	}
 
 	public String getClassName() {
+		if (mMethod == Methods.appNotResponding && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			return "com.android.server.am.AppErrors";
+		}
 		return "com.android.server.am.ActivityManagerService";
 	}
 
@@ -122,7 +126,7 @@ public class XActivityManagerService extends XHook {
 				try {
 					if ((Boolean) param.args[0]) {
 						mLockScreen = true;
-						Util.log(this, Log.WARN, "Lockscreen=" + mLockScreen);
+						Util.log(this, Log.INFO, "Lockscreen=" + mLockScreen);
 					}
 				} catch (Throwable ex) {
 					Util.bug(this, ex);
@@ -131,7 +135,7 @@ public class XActivityManagerService extends XHook {
 
 		case goingToSleep:
 			mSleeping = true;
-			Util.log(this, Log.WARN, "Sleeping=" + mSleeping);
+			Util.log(this, Log.INFO, "Sleeping=" + mSleeping);
 			break;
 
 		case wakingUp:
@@ -180,7 +184,7 @@ public class XActivityManagerService extends XHook {
 
 		case wakingUp:
 			mSleeping = false;
-			Util.log(this, Log.WARN, "Sleeping=" + mSleeping);
+			Util.log(this, Log.INFO, "Sleeping=" + mSleeping);
 			break;
 
 		case shutdown:
@@ -192,7 +196,7 @@ public class XActivityManagerService extends XHook {
 				Field methodSleeping = param.thisObject.getClass().getDeclaredField("mSleeping");
 				methodSleeping.setAccessible(true);
 				mSleeping = (Boolean) methodSleeping.get(param.thisObject);
-				Util.log(this, Log.WARN, "Sleeping=" + mSleeping);
+				Util.log(this, Log.INFO, "Sleeping=" + mSleeping);
 			}
 			break;
 		}

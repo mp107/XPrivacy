@@ -190,8 +190,8 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 		// Clipboard manager
 		hookAll(XClipboardManager.getInstances(null, false), null, mSecret, false);
 
-		// Content resolver
-		hookAll(XContentResolver.getInstances(false), null, mSecret, false);
+		// Content resolver needs work
+		//hookAll(XContentResolver.getInstances(false), null, mSecret, false);
 
 		// Package manager service
 		hookAll(XPackageManager.getInstances(null, false), null, mSecret, false);
@@ -296,8 +296,8 @@ public class XPrivacy implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 		// USB device
 		hookAll(XUsbDevice.getInstances(), null, mSecret, false);
 
-		// Web view
-		hookAll(XWebView.getInstances(), null, mSecret, false);
+		// Web view needs work
+		//hookAll(XWebView.getInstances(), null, mSecret, false);
 
 		// Window service
 		hookAll(XWindowManager.getInstances(null, false), null, mSecret, false);

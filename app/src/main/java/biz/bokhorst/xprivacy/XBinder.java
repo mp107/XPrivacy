@@ -38,10 +38,10 @@ public class XBinder extends XHook {
 
 	// @formatter:off
 	public static List<String> cServiceName = Arrays.asList("account",
-			"activity",
+			//"activity",
 			"clipboard",
 			"connectivity",
-			"content",
+			//"content",
 			"location",
 			"telephony.registry",
 			"telephony.msim.registry",
@@ -53,7 +53,7 @@ public class XBinder extends XHook {
 			"sip",
 			"isms",
 			"nfc",
-			"appwidget",
+			//"appwidget",
 			"bluetooth",
 			"bluetooth_manager",
 			"input",
@@ -61,16 +61,16 @@ public class XBinder extends XHook {
 			"usb",
 			"media.camera",
 			"<noname>",
-			"<noname>",
+			//"<noname>",
 			"<noname>");
 	// @formatter:on
 
 	// @formatter:off
 	public static List<String> cServiceDescriptor = Arrays.asList("android.accounts.IAccountManager",
-			"android.app.IActivityManager",
+			//"android.app.IActivityManager",
 			"android.content.IClipboard",
 			"android.net.IConnectivityManager",
-			"android.content.IContentService",
+			//"android.content.IContentService",
 			"android.location.ILocationManager",
 			"com.android.internal.telephony.ITelephonyRegistry",
 			"com.android.internal.telephony.ITelephonyRegistryMSim",
@@ -82,7 +82,7 @@ public class XBinder extends XHook {
 			"android.net.sip.ISipService",
 			"com.android.internal.telephony.ISms",
 			"android.nfc.INfcAdapter",
-			"com.android.internal.appwidget.IAppWidgetService",
+			//"com.android.internal.appwidget.IAppWidgetService",
 			"android.bluetooth.IBluetooth",
 			"android.bluetooth.IBluetoothManager",
 			"android.hardware.input.IInputManager",
@@ -90,7 +90,7 @@ public class XBinder extends XHook {
 			"android.hardware.usb.IUsbManager",
 			"android.hardware.ICameraService",
 			"android.app.IApplicationThread",
-			"android.content.IContentProvider",
+			//"android.content.IContentProvider",
 			"android.view.IWindowSession");
 	// @formatter:on
 
