@@ -145,7 +145,8 @@ public class Requirements {
 		}
 
 		// Check interface address
-		if (!checkField(InterfaceAddress.class, "address") || !checkField(InterfaceAddress.class, "broadcastAddress")
+		if (!checkField(InterfaceAddress.class, "address") ||
+				!checkField(InterfaceAddress.class, XNetworkInterface.sBroadcastAddress)
 				|| (PrivacyService.getClient() != null && PrivacyManager.getDefacedProp(0, "InetAddress") == null))
 			reportClass(InterfaceAddress.class, context);
 
